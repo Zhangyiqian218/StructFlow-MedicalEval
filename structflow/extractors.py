@@ -12,7 +12,7 @@ import asyncio
 import difflib
 from typing import Tuple, Dict, Optional
 from pydantic import ValidationError
-from openai import AsyncOpenAI, APITimeoutError, APIConnectionError, RateLimitError
+from openai import OpenAI, AsyncOpenAI, APITimeoutError, APIConnectionError, RateLimitError
 
 from .schemas import MedicalRecordSchema
 
@@ -115,3 +115,57 @@ class StructFlowExtractor:
     async def run(self, system_prompt: str, user_text: str):
         async with self.sem:
             return await self._evaluate(system_prompt, user_text)
+
+
+class StructFlowJudge:
+    """Phase 2 同步裁判模型（LLM-as-a-Judge）。
+
+    对专家初步抽取结果做仲裁融合，输出经 Pydantic 装甲脱水的定稿 JSON；
+    网络错误退避重试，其余校验失败直接分类返回，交由人工复核兜底。
+    """
+
+    def __init__(self, api_key: str, base_url: str, model_name: str):
+        self.client = OpenAI(api_key=api_key, base_url=base_url, timeout=60.0)
+        self.model_name = model_name
+
+    def evaluate_judge(self, system_prompt: str, user_text: str):
+        raw_response = ""
+        max_attempts = 3
+
+        for attempt in range(max_attempts):
+            try:
+                response = self.client.chat.completions.create(
+                    model=self.model_name,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_text}
+                    ],
+                    temperature=0.1,
+                    max_tokens=3000
+                )
+                raw_response = response.choices[0].message.content or ""
+
+                start_idx, end_idx = raw_response.find('{'), raw_response.rfind('}')
+                if start_idx != -1 and end_idx != -1 and end_idx >= start_idx:
+                    cleaned_text = raw_response[start_idx:end_idx + 1]
+                else:
+                    cleaned_text = raw_response.strip()
+
+                parsed_json = json.loads(cleaned_text)
+
+                validated_model = MedicalRecordSchema(**parsed_json)
+                concise_dict = validated_model.model_dump(
+                    exclude_none=True, exclude_defaults=True, exclude_unset=True)
+
+                if not concise_dict:
+                    raise ValueError("无有效业务内容")
+
+                return raw_response, json.dumps(concise_dict, ensure_ascii=False), concise_dict, None
+
+            except (RateLimitError, APITimeoutError, APIConnectionError) as e:
+                if attempt < max_attempts - 1:
+                    time.sleep(2 ** attempt)
+                    continue
+                return raw_response, "", None, f"网关崩溃: {str(e)}"
+            except Exception as e:
+                return raw_response, "", None, f"校验失败: {str(e)}"

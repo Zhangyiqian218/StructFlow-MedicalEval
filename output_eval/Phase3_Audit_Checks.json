@@ -1,0 +1,544 @@
+[
+  {
+    "hallucinations": [],
+    "missing": [
+      "术后双联抗血小板、他汀强化、β受体阻滞剂、ACEI（原文依据：诊疗计划第3条）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-001",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-003",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "诊疗计划中的'病情稳定后优化GDMT药物（ARNI/β受体阻滞剂/MRA/SGLT2i）'未在JSON中体现",
+      "诊疗计划中的'控制感染'未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-002",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "主诉中的'右侧胸痛，深呼吸时加重'",
+      "体格检查中的'急性病容'",
+      "初步诊断中的'右下肺'定位",
+      "病情分析中的'常见病原体为肺炎链球菌、非典型病原体'",
+      "诊疗计划中的'退热、止咳化痰对症'和'48-72小时评估疗效，根据痰培养及药敏调整'"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-004",
+    "pre_flagged": true
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-005",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文明确提及的布地奈德福莫特罗吸入剂（平时规律使用）未在JSON中体现",
+      "原文明确提及的万托林（吸入后缓解不明显）未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-006",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-008",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-011",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-010",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文明确提及的'头晕、乏力'症状未在JSON中体现",
+      "原文明确提及的'双肺呼吸音清'体格检查结果未在JSON中体现",
+      "原文明确提及的'心率120次/分，律齐'中的'律齐'未在JSON中体现",
+      "原文明确提及的'肝肋下未及'体格检查结果未在JSON中体现",
+      "原文明确提及的'神志清楚'体格检查结果未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-007",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders[1].intent (原文未明确提及'维持'分类)",
+      "medication_orders[2].application_site (原文未提及'直肠'具体部位)",
+      "exam_management.results中各检查项的abnormality_flag (原文未标记具体箭头方向)"
+    ],
+    "missing": [
+      "医师签名信息未在JSON中体现 (原文依据：医师签名：吴丽)",
+      "科室信息未在JSON中体现 (原文依据：【科室】消化内科)",
+      "查房医师职称信息缺失 (原文依据：吴丽 副主任医师)"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-009",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "metadata.record_time",
+      "patient_profile.past_medical_history",
+      "physical_examination.abnormal_signs",
+      "diagnoses[0].diagnosis_type",
+      "diagnoses[0].status",
+      "diagnoses[1].diagnosis_type",
+      "diagnoses[1].status",
+      "medication_orders[0].intent",
+      "medication_orders[0].cautions",
+      "medication_orders[1].intent",
+      "medication_orders[1].frequency",
+      "medication_orders[1].conditional_actions",
+      "non_pharm_interventions[0].intent",
+      "non_pharm_interventions[1].intent",
+      "exam_management.results[0].abnormality_flag",
+      "exam_management.results[3].abnormality_flag",
+      "patient_flow_plans[0].flow_type",
+      "patient_flow_plans[0].status_or_timing"
+    ],
+    "missing": [
+      "诊疗计划中的纠正诱因（停药、感染等），恢复规律抗癫痫治疗",
+      "诊疗计划中的处理并发症（酸中毒、高热、横纹肌溶解等）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-012",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders.drug_name.艾司洛尔.route",
+      "medication_orders.drug_name.艾司洛尔.infusion_method"
+    ],
+    "missing": [],
+    "verdict": "review",
+    "record_id": "DICT-014",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "主诉中的'恶心呕吐伴深大呼吸1天'未在JSON中体现",
+      "现病史中的'因感冒自行减少胰岛素用量'未在JSON中体现",
+      "体格检查中的'神志清楚，精神萎靡'未在JSON中体现",
+      "体格检查中的'双肺呼吸音清'未在JSON中体现",
+      "体格检查中的'心率120次/分，律齐'未在JSON中体现",
+      "体格检查中的'腹软，无反跳痛'未在JSON中体现",
+      "诊疗计划中的'后续根据血压、心率、尿量调整'未在JSON中体现",
+      "诊疗计划中的'恢复皮下胰岛素治疗'未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-013",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-015",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "静脉补液（原文明确提及）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-019",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-016",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders.route（原文未明确提及给药途径）",
+      "medication_orders.cautions（原文中预防肿瘤溶解综合征是整体计划而非每药单独标注）"
+    ],
+    "missing": [
+      "诊疗计划中的'预防性抗病毒治疗'（原文依据：乙肝病毒筛查及预防性抗病毒治疗）",
+      "诊疗计划中的'监测化疗不良反应（骨髓抑制、心脏毒性、神经毒性）'（原文明确提及）",
+      "诊疗计划中的'若疗效不佳，考虑二线方案及CAR-T细胞治疗'（原文明确提及）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-018",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-022",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders.route (原文未提及具体给药途径)"
+    ],
+    "missing": [],
+    "verdict": "review",
+    "record_id": "DICT-020",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-021",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "诊疗计划中的'立即建立静脉通路，快速补液，备血，必要时输血'",
+      "诊疗计划中的'预防感染'",
+      "诊疗计划中的'术后监测血β-HCG下降情况'"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-023",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders[0].conditional_actions",
+      "medication_orders[1].conditional_actions",
+      "exam_management.orders"
+    ],
+    "missing": [
+      "metadata.department（原文明确提及科室为妇产科）",
+      "physical_examination.abdominal_examination（原文提及宫高32cm/腹围95cm/胎心140次/分）",
+      "medication_orders[0].infusion_time（原文提及硫酸镁静推15-20分钟）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-024",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "阿莫西林克拉维酸钾作为头孢曲松的替代用药（原文依据：'头孢曲松100mg/kg/d静滴（或阿莫西林克拉维酸钾）'）",
+      "复查胸片及炎症指标评估疗效的具体安排（原文依据：'复查胸片及炎症指标评估疗效'）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-025",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "洗胃使用的2%碳酸氢钠溶液未在medication_orders中体现",
+      "硫酸钠作为导泻替代方案未在medication_orders中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-028",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文提及的恶心呕吐症状未在JSON中体现",
+      "原文提及的神经系统检查未见局灶性定位体征未在JSON中体现",
+      "原文提及的辅助检查中的血常规结果未在JSON中体现",
+      "原文提及的诊疗计划中的可选药物尼卡地平或拉贝洛尔未在JSON中体现",
+      "原文提及的病情稳定后调整口服降压方案（联合用药，ACEI/ARB+CCB+利尿剂）未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-029",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders.drug_name.route (静推/静脉输注/口服/皮下注射等给药途径原文均未明确说明)",
+      "medication_orders.drug_name.monitoring_target (部分监测目标如'控制化疗副作用'等为推断内容)",
+      "medication_orders.drug_name.cautions (部分注意事项如'监测骨髓抑制'等为推断内容)",
+      "medication_orders.drug_name.conditional_actions (部分条件操作如'若出现严重骨髓抑制则停药'为推断内容)",
+      "exam_management.results.abnormality_flag (异常标记↑↓为系统推断)",
+      "exam_management.orders.urgency (平诊未明确说明)"
+    ],
+    "missing": [
+      "主诉原文明确提及的'牙龈出血'未在JSON任何部分体现",
+      "体格检查中'心率100次/分，律齐'未在JSON体现",
+      "诊疗计划中'DA方案'的联合用药关系未体现（柔红霉素+阿糖胞苷组合治疗）",
+      "诊疗计划中'根据血培养调整抗生素'的具体调整策略未在medication_orders中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-017",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders.利伐沙班.intent",
+      "medication_orders.利伐沙班.indication",
+      "exam_management.results.血气分析.abnormality_flag",
+      "exam_management.results.心电图.abnormality_flag",
+      "exam_management.results.心脏彩超.abnormality_flag",
+      "exam_management.results.下肢静脉彩超.abnormality_flag",
+      "exam_management.results.CTPA.abnormality_flag",
+      "exam_management.results.肌钙蛋白I.abnormality_flag",
+      "exam_management.results.BNP.abnormality_flag"
+    ],
+    "missing": [
+      "physical_examination.abnormal_signs.P2>A2（原文提及）",
+      "diagnoses.急性肺血栓栓塞症（中高危）.diagnostic_basis.心电图SⅠQⅢTⅢ，V1-V3导联T波倒置（原文提及）",
+      "diagnoses.急性肺血栓栓塞症（中高危）.diagnostic_basis.心脏彩超右室扩大，肺动脉高压（原文提及）",
+      "medication_orders.低分子肝素.drug_name应为依诺肝素（原文提及）",
+      "medication_orders.阿替普酶.conditional_actions.可考虑溶栓治疗（原文提及）",
+      "non_pharm_interventions.查找DVT原因，评估抗凝疗程（至少3个月，特发性需6-12个月）（原文提及）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-030",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文提及的'病理征阴性'在JSON中未体现",
+      "原文提及的'肌张力正常'在JSON中未体现",
+      "原文提及的'预防感染'在JSON中未体现",
+      "原文提及的'长期免疫抑制治疗'中的具体药物选择（硫唑嘌呤或他克莫司）在JSON中虽然列出，但未明确是选择之一还是同时使用"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-032",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文提及的补钾治疗具体浓度和速度限制（浓度不超过0.3%，速度不超过0.3mmol/kg/h）未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-026",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-033",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "主诉：皮肤瘀斑伴牙龈出血1周",
+      "现病史：患者1周前无明显诱因出现双下肢皮肤瘀点瘀斑，伴牙龈出血，月经量增多。无发热、关节痛及腹痛。近期有上呼吸道感染史",
+      "体格检查：神志清楚。浅表淋巴结未触及肿大。心肺听诊无异常。腹软，肝脾肋下未触及",
+      "辅助检查：Hb 105g/L（轻度贫血，与月经过多有关）",
+      "诊疗计划：若激素无效或复发，考虑二线治疗：促血小板生成药物（TPO受体激动剂如艾曲泊帕）、利妥昔单抗、脾切除"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-035",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-034",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "头孢类和甲硝唑的剂量未在JSON中体现（原文未明确提及具体剂量，但通常应有剂量信息）",
+      "生长抑素：奥曲肽的适应症未明确提及'预防肠道细菌移位'（原文中头孢类+甲硝唑用于此目的）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-036",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文明确提及的'建立两条大口径静脉通路'在JSON中漏掉",
+      "原文明确提及的'交叉配血'在JSON中漏掉",
+      "原文明确提及的'监测生命体征、血红蛋白、凝血功能，纠正凝血障碍及低体温'在JSON中漏掉",
+      "原文明确提及的'预防感染、应激性溃疡、深静脉血栓'在JSON中漏掉"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-027",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-037",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-031",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [
+      "medication_orders[0].cautions",
+      "medication_orders[0].conditional_actions",
+      "medication_orders[1].monitoring_target",
+      "medication_orders[1].cautions",
+      "medication_orders[1].conditional_actions",
+      "medication_orders[2].monitoring_target",
+      "medication_orders[2].cautions",
+      "medication_orders[3].monitoring_target",
+      "medication_orders[3].cautions",
+      "medication_orders[4].monitoring_target",
+      "medication_orders[4].cautions",
+      "medication_orders[5].monitoring_target",
+      "medication_orders[5].cautions"
+    ],
+    "missing": [
+      "物理降温（原文明确提及）",
+      "密切观察病情变化（原文明确提及）",
+      "警惕重症表现（原文明确提及）",
+      "健康教育中的具体内容（原文明确提及）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-039",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "原文明确提及的'需充分补液'（诊疗计划第3条）未在JSON中体现",
+      "原文明确提及的'双联抗血小板、他汀强化、β受体阻滞剂、ACEI/ARB'（诊疗计划第5条）未在JSON中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-040",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "限制液体入量（诊疗计划中提及）",
+      "监测体温、血象、炎症指标、心脏彩超（诊疗计划中提及）",
+      "警惕栓塞并发症（脑栓塞、脾栓塞、肾栓塞等）（诊疗计划中提及）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-041",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "主诉中的'低热1周'未在diagnoses或physical_examination中体现",
+      "体格检查中的'气管居中'、'左上肺呼吸音清'、'心率90次/分，律齐'、'腹软，肝脾未触及'、'杵状指阴性'未在physical_examination中体现",
+      "辅助检查中的'胸水找抗酸杆菌：阴性'、'胸水找癌细胞：阴性'未在exam_management.results中体现",
+      "诊疗计划中的'止咳、镇痛、营养支持'未在medication_orders或non_pharm_interventions中体现"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-042",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-043",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "诊疗计划中的控制血压药物（ACEI/ARB+CCB）",
+      "诊疗计划中的控制血糖（胰岛素）",
+      "诊疗计划中的补钾",
+      "诊疗计划中的预防感染",
+      "诊疗计划中的术后监测皮质醇",
+      "诊疗计划中的糖皮质激素替代治疗（氢化可的松20-30mg/d，逐渐减量）",
+      "诊疗计划中的药物治疗（酮康唑、美替拉酮等肾上腺皮质激素合成抑制剂）",
+      "诊疗计划中的定期随访皮质醇、ACTH、垂体MRI",
+      "诊疗计划中的处理并发症：高血压、糖尿病、骨质疏松、感染等"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-045",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-046",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-044",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-048",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-038",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [
+      "更换输液器，保留静脉通路（诊疗计划第1条）",
+      "肾上腺素剂量单位应为mL（0.3-0.5mL），JSON中写为mg（原文诊疗计划第2条）",
+      "糖皮质激素中甲泼尼龙和地塞米松是二选一关系，JSON中未体现互斥性（原文诊疗计划第5条）"
+    ],
+    "verdict": "review",
+    "record_id": "DICT-050",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-047",
+    "pre_flagged": false
+  },
+  {
+    "hallucinations": [],
+    "missing": [],
+    "verdict": "pass",
+    "record_id": "DICT-049",
+    "pre_flagged": false
+  }
+]

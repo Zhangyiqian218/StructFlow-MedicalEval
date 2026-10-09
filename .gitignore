@@ -1,0 +1,23 @@
+# ===== 密钥（严禁提交）=====
+.env
+.env.*
+!.env.example
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# ===== Streamlit =====
+.streamlit/secrets.toml
+
+# ===== 中间备份 =====
+output_eval/*.bak.json
+
+# ===== 系统/编辑器 =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

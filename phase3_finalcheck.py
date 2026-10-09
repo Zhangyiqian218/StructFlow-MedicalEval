@@ -3,13 +3,13 @@ import json
 from pathlib import Path
 import pandas as pd
 from pydantic import ValidationError
-from phase1 import MedicalRecordSchema
+from structflow.schemas import MedicalRecordSchema
 from phase4 import PRIMARY_KEYS, flatten_to_facts
 
 BASE = Path(__file__).resolve().parent
 OUT = BASE / "output_eval"
 GOLD = OUT / "Phase3_True_Gold_Final.json"
-XLSX = BASE / "医生口述查房记录_50条.xlsx"
+XLSX = BASE / "data" / "医生口述查房记录_50条.xlsx"
 LOGS = OUT / "Phase1_Detailed_Logs.csv"
 
 issues = []   # 阻断性问题

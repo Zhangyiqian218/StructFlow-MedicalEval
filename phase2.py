@@ -7,8 +7,8 @@ from typing import Tuple, Dict, Any, Optional
 from openai import OpenAI, APITimeoutError, APIConnectionError, RateLimitError
 from dotenv import load_dotenv
 
-# 直接复用 Phase 1 的脱水装甲
-from phase1 import MedicalRecordSchema 
+# 直接复用 SDK 包的脱水装甲
+from structflow.schemas import MedicalRecordSchema
 
 class StructFlowJudge:
     def __init__(self, api_key: str, base_url: str, model_name: str):
@@ -186,7 +186,7 @@ if __name__ == "__main__":
         run_phase_2_consensus(
             matrix_path=str(BASE_DIR / "output_eval" / "Phase1_01_Matrix.csv"), # 【修复 1】：对齐 Phase 1 新版输出的文件名
             logs_path=str(BASE_DIR / "output_eval" / "Phase1_Detailed_Logs.csv"),
-            raw_data_path=str(BASE_DIR / "医生口述查房记录_50条.xlsx"),
+            raw_data_path=str(BASE_DIR / "data" / "医生口述查房记录_50条.xlsx"),
             output_dir=str(BASE_DIR / "output_eval"),
             judge_config=JUDGE_CONFIG
         )

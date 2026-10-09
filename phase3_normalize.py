@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from phase1 import MedicalRecordSchema
+from structflow.schemas import MedicalRecordSchema
 from pydantic import ValidationError
 
 BASE = Path(__file__).resolve().parent

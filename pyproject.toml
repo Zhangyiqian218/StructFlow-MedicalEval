@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "structflow-medicaleval"
+version = "0.1.0"
+description = "医疗口述查房记录 L0 Schema 结构化抽取 SDK：多模型零样本评测、裁判共识、人工真值与实体级 F1 四阶段流水线"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Zhangyiqian218" }]
+keywords = ["medical-nlp", "information-extraction", "llm-evaluation", "pydantic", "clinical-text"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+    "pandas>=2.0",
+    "pydantic>=2.5",
+    "openai>=1.30",
+    "python-dotenv>=1.0",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+# 观测舱前端
+ui = ["streamlit>=1.30"]
+dev = ["pytest>=8.0"]
+
+[tool.setuptools.packages.find]
+# 仅将核心源码包打入发行物；ui/（streamlit 脚本）与 data/（语料）随仓库分发
+include = ["structflow*"]

@@ -1,175 +1,16 @@
 import os
-import json
-import re
 import time
 import asyncio
 import difflib
 import pandas as pd
 from pathlib import Path
-from typing import Optional, Tuple, Dict, Any, List, Union, Literal
-from pydantic import BaseModel, Field, ValidationError, ConfigDict
-from openai import AsyncOpenAI, APITimeoutError, APIConnectionError, RateLimitError
+from typing import Dict
 from dotenv import load_dotenv
 
-# ==========================================
-# 1. Pydantic V2 强类型防幻觉装甲 (Literal 枚举绝对边界)
-# ==========================================
-class PatientProfile(BaseModel):
-    age: Union[int, str, None] = None
-    gender: Optional[str] = None
-    admission_days: Union[int, str, None] = None
-    post_op_days: Union[int, str, None] = None
-    past_medical_history: List[str] = Field(default_factory=list)
-    model_config = ConfigDict(extra='forbid')
-
-class DiagnosisSchema(BaseModel):
-    disease_name: str
-    diagnosis_type: Optional[Literal["主要诊断", "次要诊断", "并发症", "既往疾病", "未指定"]] = None
-    grading: Optional[str] = Field(None, description="疾病分级、分期或急性/慢性状态")
-    status: Optional[Literal["确诊", "疑似", "排除", "待查"]] = None
-    diagnostic_basis: List[str] = Field(default_factory=list)
-    model_config = ConfigDict(extra='forbid')
-
-class MedicationOrder(BaseModel):
-    drug_name: str
-    intent: List[Literal["新增", "停药", "换药", "改量", "维持"]] = Field(default_factory=list)
-    indication: Optional[str] = None
-    loading_dose: Optional[str] = None
-    dosage: Optional[str] = None
-    frequency: Optional[str] = None
-    route: Optional[str] = None
-    course_duration: Optional[str] = None
-    infusion_method: Optional[str] = None
-    timing_relation: Optional[str] = None
-    application_site: Optional[str] = None
-    monitoring_target: Optional[str] = None
-    cautions: Optional[str] = None
-    adjusted_from_drug: Optional[str] = None
-    adjusted_from_dosage: Optional[str] = None
-    conditional_actions: Optional[str] = None
-    skin_test_required: bool = False
-    combination_group: Optional[str] = None
-    other_notes: List[str] = Field(default_factory=list)
-    model_config = ConfigDict(extra='forbid')
-
-class MedicalRecordSchema(BaseModel):
-    metadata: Dict[str, Any] = Field(default_factory=dict)
-    patient_profile: PatientProfile = Field(default_factory=PatientProfile)
-    physical_examination: Dict[str, Any] = Field(default_factory=dict)
-    clinical_scores: List[Dict[str, Any]] = Field(default_factory=list)
-    diagnoses: List[DiagnosisSchema] = Field(default_factory=list)
-    medication_orders: List[MedicationOrder] = Field(default_factory=list)
-    fluid_management: List[Dict[str, Any]] = Field(default_factory=list)
-    non_pharm_interventions: List[Dict[str, Any]] = Field(default_factory=list)
-    exam_management: Dict[str, Any] = Field(default_factory=dict)
-    medical_alerts: Dict[str, Any] = Field(default_factory=dict)
-    patient_flow_plans: List[Dict[str, Any]] = Field(default_factory=list)
-    model_config = ConfigDict(extra='forbid')
+from structflow.extractors import StructFlowExtractor
 
 # ==========================================
-# 2. 异步提取器：独立信号量 + 全局去重防复读
-# ==========================================
-class AsyncExtractor:
-    def __init__(self, name: str, api_key: str, base_url: str, concurrency: int):
-        self.name = name
-        _name = name.lower()
-        self.is_reasoning = ("r1" in _name or "reasoning" in _name or "kimi" in _name)
-        self.timeout = 180.0 if self.is_reasoning else 60.0
-        self.max_tokens = 8000 if self.is_reasoning else 2500
-        if "kimi" in _name:
-            self.temperature = 1.0
-        elif self.is_reasoning:
-            self.temperature = 0.6
-        else:
-            self.temperature = 0.1
-        self.client = AsyncOpenAI(api_key=api_key, base_url=base_url, timeout=self.timeout)
-
-        self.sem = asyncio.Semaphore(concurrency)
-        self.history: List[str] = []
-        self.dedup_lock = asyncio.Lock()
-
-    @staticmethod
-    def clean_json_string(text: str) -> str:
-        if not text:
-            return "{}"
-        text = re.sub(r'<think>.*?(?:</think>|$)', '', text, flags=re.DOTALL)
-        s = text.find('{')
-        e = text.rfind('}')
-        if s != -1 and e != -1 and e >= s:
-            return text[s:e+1]
-        return text.strip()
-
-    async def _evaluate(self, system_prompt: str, user_text: str):
-        raw_response = ""
-        for attempt in range(4):
-            try:
-                resp = await self.client.chat.completions.create(
-                    model=self.name,
-                    messages=[
-                        {"role": "system", "content": system_prompt},
-                        {"role": "user", "content": user_text}
-                    ],
-                    temperature=self.temperature,
-                    max_tokens=self.max_tokens
-                )
-                raw_response = resp.choices[0].message.content or ""
-                cleaned = self.clean_json_string(raw_response)
-                parsed = json.loads(cleaned)
-
-                validated = MedicalRecordSchema(**parsed)
-                concise = validated.model_dump(
-                    exclude_none=True, exclude_defaults=True, exclude_unset=True)
-                if not concise:
-                    raise ValueError("JSON 结构合规但无有效业务内容 (空提取)")
-                cj = json.dumps(concise, ensure_ascii=False)
-
-                # 全局去重（本模型已完成的全部输出，加锁原子化）
-                dup_sim = 0.0
-                async with self.dedup_lock:
-                    for prev in self.history:
-                        s = difflib.SequenceMatcher(None, cj, prev).ratio()
-                        if s > dup_sim:
-                            dup_sim = s
-                    if dup_sim > 0.90:
-                        duplicate = True
-                    else:
-                        duplicate = False
-                        self.history.append(cj)
-                if duplicate:
-                    if attempt < 3:
-                        await asyncio.sleep(2 + attempt)
-                        continue
-                    return raw_response, "", None, f"雷同阻断: 与历史输出相似度 {dup_sim:.2%}"
-
-                return raw_response, cj, concise, None
-
-            except (RateLimitError, APITimeoutError, APIConnectionError) as e:
-                if attempt < 3:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-                return raw_response, "", None, f"网关错误({type(e).__name__}): {str(e)[:120]}"
-            except json.JSONDecodeError as e:
-                if attempt < 3:
-                    await asyncio.sleep(1 + attempt)
-                    continue
-                return raw_response, "", None, f"JSON结构撕裂/截断: {str(e)[:100]}"
-            except ValidationError as e:
-                return raw_response, "", None, f"Schema幻觉拦截: {str(e)[:200]}"
-            except ValueError as e:
-                return raw_response, "", None, f"业务校验失败: {str(e)[:120]}"
-            except Exception as e:
-                if "429" in str(e) and attempt < 3:
-                    await asyncio.sleep(2 ** attempt)
-                    continue
-                return raw_response, "", None, f"底层异常: {str(e)[:150]}"
-        return raw_response, "", None, "重试4次仍失败"
-
-    async def run(self, system_prompt: str, user_text: str):
-        async with self.sem:
-            return await self._evaluate(system_prompt, user_text)
-
-# ==========================================
-# 3. 主调度：按记录聚合，完成即落盘
+# 主调度：按记录聚合，完成即落盘
 # ==========================================
 async def run_phase_1(data_path: str, model_configs: dict, system_prompt: str, output_dir: str):
     os.makedirs(output_dir, exist_ok=True)
@@ -179,10 +20,10 @@ async def run_phase_1(data_path: str, model_configs: dict, system_prompt: str, o
     df = pd.read_excel(data_path)
     df['记录编号'] = df['记录编号'].astype(str)
 
-    extractors: Dict[str, AsyncExtractor] = {}
+    extractors: Dict[str, StructFlowExtractor] = {}
     for name, cfg in model_configs.items():
         if cfg.get("api_key"):
-            extractors[name] = AsyncExtractor(
+            extractors[name] = StructFlowExtractor(
                 name, cfg["api_key"], cfg["base_url"], cfg.get("concurrency", 4))
     model_names = list(extractors.keys())
 
@@ -260,12 +101,12 @@ async def run_phase_1(data_path: str, model_configs: dict, system_prompt: str, o
         print(f"\n🏁 全局雷同检测完成，漏网 {dup_hits} 对")
 
 # ==========================================
-# 4. 主程序
+# 主程序
 # ==========================================
 if __name__ == "__main__":
     load_dotenv()
     BASE_DIR = Path(__file__).resolve().parent
-    DATA_FILE = BASE_DIR / "医生口述查房记录_50条.xlsx"
+    DATA_FILE = BASE_DIR / "data" / "医生口述查房记录_50条.xlsx"
     OUTPUT_DIR = BASE_DIR / "output_eval"
 
     MODEL_CONFIGS = {

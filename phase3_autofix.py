@@ -93,7 +93,7 @@ async def main():
               ensure_ascii=False, indent=2)
 
     # 立即用 Schema 校验，报告合规率
-    from phase1 import MedicalRecordSchema
+    from structflow.schemas import MedicalRecordSchema
     from pydantic import ValidationError
     bad = []
     for x in res:

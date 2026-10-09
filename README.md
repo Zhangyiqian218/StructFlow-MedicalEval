@@ -1,32 +1,99 @@
-# StructFlow 医疗口述查房记录 · 结构化抽取评测流水线
+# StructFlow-MedicalEval
 
-将医生口述查房文本按 **L0 Schema V3.1** 抽取为深层嵌套 JSON（用药调整追溯、条件干预、液体管理、临床流转等），并对多家大模型进行零样本实体级 F1 评测。全流程分为 4 个 Phase，配套 Streamlit 观测舱完成人机协同复核。
+将医生口述查房文本按 **L0 Schema V3.1** 抽取为深层嵌套 JSON（用药调整追溯、条件干预、液体管理、临床流转等），并对多家大模型进行零样本实体级 F1 评测。
 
-## 流水线总览
+项目正在 SDK 化：核心装甲与抽取器已沉淀为 `structflow` 包；四阶段流水线脚本仍位于仓库根目录，后续将整合进 `structflow/engine.py`。
 
-| 阶段 | 脚本 | 作用 | 主要产出（`output_eval/`） |
-|---|---|---|---|
-| Phase 1 | `phase1.py` | 9 个模型异步零样本抽取；Pydantic V2 强类型装甲（字段白名单 + 枚举边界）拦截幻觉；雷同阻断、断点续跑 | `Phase1_01_Matrix.csv`、`Phase1_Detailed_Logs.csv` |
-| Phase 2 | `phase2.py` | `qwen-max` 担任裁判（避嫌，不参考自身输出），融合前 3 个高质量专家结果仲裁生成伪金标准；以成功解析数 `pass_count/9` 作为 IRT 难度，<4 标记人工复核 | `Phase2_Pseudo_Gold_Full.json` |
-| Phase 3 | `phase3_preaudit.py` → `phase3_autofix.py` → `phase3_normalize.py` → `dashboard.py` 人工复核 | 独立事实核查（幻觉/遗漏）→ 终审编辑自动修正 → 字段归一化与 Schema 复校 → 观测舱逐条人工确认为真值 | `Phase3_Audit_Checks.json`、`Phase3_Suggested_Gold.json`、`Phase3_True_Gold_Final.json` |
-| Phase 4 | `phase4.py` | 以 True Gold 为基准，按业务主键寻址打平为事实集合，做实体级碰撞，输出 Micro/Macro 双口径 F1 | `Phase4_F1_Leaderboard.csv`、`Phase4_Per_Record_F1.csv` |
+## 目录结构
 
-辅助脚本：
+```
+StructFlow-MedicalEval/
+├── structflow/                    # SDK 核心源码包
+│   ├── __init__.py
+│   ├── schemas.py                 # L0 Pydantic 装甲：MedicalRecordSchema 等（extra=forbid + 枚举边界）
+│   ├── extractors.py              # StructFlowExtractor：单模型异步抽取（校验/去重/重试）
+│   └── engine.py                  # 统一引擎（规划占位，后续整合四阶段编排）
+├── ui/
+│   └── dashboard.py               # Streamlit 观测舱（四阶段可视化 + Phase3 人工复核）
+├── data/
+│   └── 医生口述查房记录_50条.xlsx   # 50 条语料（项目输入）
+├── output_eval/                   # 各阶段落盘产物（矩阵/日志/金标准/排行榜）
+├── phase1.py                      # Phase 1：多模型零样本抽取调度
+├── phase2.py                      # Phase 2：裁判共识与 IRT 难度标记
+├── phase3.py                      # Phase 3：终端人机协同审计（另一入口）
+├── phase3_preaudit.py             # Phase 3：独立事实核查（幻觉/遗漏）
+├── phase3_autofix.py              # Phase 3：终审自动修正
+├── phase3_normalize.py            # Phase 3：字段归一化与 Schema 复校
+├── phase3_finalcheck.py           # Phase 3：跑 Phase4 前的终检闸门
+├── phase3_finalclean.py           # Phase 3：空值清洗（备份 + 留痕）
+├── phase4.py                      # Phase 4：主键寻址实体级 Micro/Macro F1
+├── phase4_verify.py               # Phase 4：独立复算与逐记录 F1 留底
+├── SCHEMA_V3.md                   # L0 Schema 规范（11 大模块）
+├── pyproject.toml
+└── README.md
+```
 
-- `phase3_finalcheck.py`：跑 Phase4 前的终检闸门（ID 对齐、Schema、稀疏原则、原文错位、日志覆盖、主键碰撞预警）。
-- `phase3_finalclean.py`：清除金标准中残留空值字段（自动备份 + 留痕）。
-- `phase4_verify.py`：独立复算排行榜并落盘逐记录 F1，量化主键重复记录影响。
-- `dashboard.py`：StructFlow 观测舱，4 个 Tab 覆盖全流程可视化与人工复核。
+## 安装
 
-## Schema 规范
+```bash
+# 建议 Python 3.10+；可编辑安装（含观测舱依赖）
+pip install -e ".[ui]"
 
-见 [`SCHEMA_V3.md`](SCHEMA_V3.md)，11 大模块稀疏输出。核心业务规则：
+# 配置 API Key（.env 不纳入版本管理）
+cp .env.example .env   # 填入 DASHSCOPE / ZHIPU / MOONSHOT 的 Key
+```
 
-1. **意图与修改解耦**：修改动作入 `intent`，生效值写当前字段，原值写 `adjusted_from_*` 追溯，禁止布尔值表达修改。
-2. **条件触发与排除限制**：条件医嘱入 `conditional_actions`，禁忌/免做入 `exclusion_conditions` 或 `medical_alerts`。
-3. **状态诊断识别**：疑似/排除/待查语义拆入 `diagnoses.status`，拦截幻觉。
+## 作为 SDK 使用
 
-## 最终评测结果（50 条 True Gold，实体级 Micro F1 主口径）
+```python
+import asyncio
+from structflow.schemas import MedicalRecordSchema
+from structflow.extractors import StructFlowExtractor
+
+extractor = StructFlowExtractor(
+    name="qwen-turbo",
+    api_key="<your-key>",
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+    concurrency=4,
+)
+
+raw, cleaned_json, parsed, error = asyncio.run(extractor.run(
+    system_prompt="<L0 抽取提示词>",
+    user_text="<医生口述查房文本>",
+))
+# parsed 为通过 MedicalRecordSchema 校验、脱水压缩后的 dict；
+# error 非 None 时表示被 Schema 装甲/JSON 解析/雷同阻断拦截。
+```
+
+## 运行四阶段流水线
+
+```bash
+python phase1.py                  # Phase 1：9 模型抽取（耗时最长，支持断点续跑）
+python phase2.py                  # Phase 2：qwen-max 裁判避嫌仲裁
+python phase3_preaudit.py         # Phase 3：事实核查
+python phase3_autofix.py          # Phase 3：自动修正
+python phase3_normalize.py        # Phase 3：归一化复校
+# 方式 A：观测舱在 "Phase 3" Tab 逐条人工复核并提交为 True Gold
+# 方式 B：python phase3.py 走终端人机协同审计
+python phase3_finalcheck.py       # 终检闸门（ID/Schema/稀疏原则/原文错位/日志覆盖）
+python phase4.py                  # Phase 4：F1 排行榜
+python phase4_verify.py           # 独立复算与逐记录留底
+```
+
+## 观测舱
+
+```bash
+streamlit run ui/dashboard.py     # http://localhost:8501
+```
+
+四个 Tab：Phase 1 矩阵与日志、Phase 2 判官共识、Phase 3 审计舱（人工复核落盘 True Gold）、Phase 4 F1 排行榜。
+
+## Schema 与评测口径
+
+- Schema 规范见 [`SCHEMA_V3.md`](SCHEMA_V3.md)，11 大模块稀疏输出；核心规则：意图与修改解耦（`adjusted_from_*` 追溯）、条件干预入 `conditional_actions`、疑似/排除状态入 `diagnoses.status`。
+- Phase 4 将 JSON 按业务主键（`drug_name`、`disease_name`、`exam_name` 等）打平为事实集合，频次/途径/单位归一化后做实体级碰撞；解析失败记录按 0 分计入。
+
+## 最终评测结果（50 条 True Gold，Micro F1 主口径）
 
 | 排名 | 模型 | Micro P | Micro R | Micro F1 | Macro F1 |
 |---|---|---|---|---|---|
@@ -40,27 +107,9 @@
 | 7 | qwen-plus | 46.7% | 42.9% | 44.7% | 42.7% |
 | 8 | glm-4-flash | 47.3% | 25.4% | 33.1% | 30.5% |
 
-口径说明：事实集合按业务主键（如 `drug_name`、`disease_name`、`exam_name`）寻址，频次/途径/单位做归一化；解析失败记录按 0 分计入。排行榜数字已由 `phase4_verify.py` 独立复算核对一致。
+排行榜数字已由 `phase4_verify.py` 独立复算核对一致。
 
-## 复现方式
+## 数据与密钥
 
-```bash
-pip install pandas openpyxl pydantic openai python-dotenv streamlit
-cp .env.example .env   # 填入 API Key
-python phase1.py                  # Phase 1：多模型抽取（耗时最长，支持断点续跑）
-python phase2.py                  # Phase 2：裁判共识
-python phase3_preaudit.py         # Phase 3：事实核查
-python phase3_autofix.py          # Phase 3：自动修正
-python phase3_normalize.py        # Phase 3：归一化复校
-# 浏览器打开观测舱，在 "Phase 3" Tab 逐条人工复核并提交为 True Gold
-python phase3_finalcheck.py       # 终检闸门
-python phase4.py                  # Phase 4：F1 排行榜
-python phase4_verify.py           # 独立复算与逐记录留底
-streamlit run dashboard.py        # 观测舱：http://localhost:8501
-```
-
-## 数据与目录
-
-- `医生口述查房记录_50条.xlsx`：50 条口述查房语料（字段：记录编号、记录日期时间、年龄、性别、口述全文），为项目输入。
-- `output_eval/`：各阶段落盘产物，保留完整中间结果以便审计。
-- `.env`：API 密钥，**不纳入版本管理**（见 `.env.example`）。
+- `data/医生口述查房记录_50条.xlsx`：50 条口述查房语料（记录编号、记录日期时间、年龄、性别、口述全文）。
+- `.env`：API 密钥，**不纳入版本管理**（模板见 `.env.example`）。

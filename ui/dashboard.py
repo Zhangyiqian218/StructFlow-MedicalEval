@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
-import streamlit as st
-import pandas as pd
+import sys
 import json
 from pathlib import Path
+
+# 无论从哪个工作目录启动 streamlit，都把项目根（ui/ 的上级）加入导入路径
+_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(_PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(_PROJECT_ROOT))
+
+import streamlit as st
+import pandas as pd
 
 st.set_page_config(page_title="StructFlow 观测舱", layout="wide")
 st.title("🩺 StructFlow 结构化抽取评测台")
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = _PROJECT_ROOT
 OUTPUT_DIR = BASE_DIR / "output_eval"
 
 tab1, tab2, tab3, tab4 = st.tabs([
@@ -106,7 +113,7 @@ with tab2:
 # Phase 3：人机协同复核（以自动建议金标准为起点）
 # ==========================================================
 with tab3:
-    from phase1 import MedicalRecordSchema
+    from structflow.schemas import MedicalRecordSchema
     st.header("真值对齐与审计舱")
     st.caption("流程：先读原文（背对背）→ 核对自动修正版 → 确认/微调后提交。进度实时保存。")
     pseudo_path = OUTPUT_DIR / "Phase2_Pseudo_Gold_Full.json"

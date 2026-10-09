@@ -1,15 +1,17 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "structflow-medicaleval"
+name = "structflow-eval"
 version = "0.1.0"
-description = "医疗口述查房记录 L0 Schema 结构化抽取 SDK：多模型零样本评测、裁判共识、人工真值与实体级 F1 四阶段流水线"
+authors = [
+    { name = "Zhangyiqian218", email = "zyqctj218@163.com" },
+]
+description = "A rigorous, human-in-the-loop evaluation and distillation framework for LLM nested JSON extraction."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Zhangyiqian218" }]
 keywords = ["medical-nlp", "information-extraction", "llm-evaluation", "pydantic", "clinical-text"]
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -21,18 +23,22 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
 ]
 dependencies = [
+    "pydantic>=2.0",
+    "openai>=1.0",
     "pandas>=2.0",
-    "pydantic>=2.5",
-    "openai>=1.30",
-    "python-dotenv>=1.0",
     "openpyxl>=3.1",
+    "python-dotenv>=1.0",
+    "streamlit>=1.30",
 ]
 
 [project.optional-dependencies]
-# 观测舱前端
-ui = ["streamlit>=1.30"]
 dev = ["pytest>=8.0"]
 
+[project.urls]
+Homepage = "https://github.com/Zhangyiqian218/StructFlow-MedicalEval"
+Repository = "https://github.com/Zhangyiqian218/StructFlow-MedicalEval"
+
 [tool.setuptools.packages.find]
-# 仅将核心源码包打入发行物；ui/（streamlit 脚本）与 data/（语料）随仓库分发
+# 仅将核心源码包打入发行物；ui/（streamlit 脚本）、根目录 phase*.py（流水线入口）
+# 与 data/（语料）随仓库分发，不打进 wheel，避免自动发现误报多顶层包
 include = ["structflow*"]

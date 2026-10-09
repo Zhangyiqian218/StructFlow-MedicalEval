@@ -36,12 +36,14 @@ StructFlow-MedicalEval/
 ## 安装
 
 ```bash
-# 建议 Python 3.10+；可编辑安装（含观测舱依赖）
-pip install -e ".[ui]"
+# 建议 Python 3.10+；可编辑安装（依赖含 pydantic/openai/pandas/openpyxl/python-dotenv/streamlit）
+pip install -e .
 
 # 配置 API Key（.env 不纳入版本管理）
 cp .env.example .env   # 填入 DASHSCOPE / ZHIPU / MOONSHOT 的 Key
 ```
+
+> 分发包名 `structflow-eval`，Python 导入名为 `structflow`（两者相互独立）。
 
 ## 作为 SDK 使用
 

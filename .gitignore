@@ -9,6 +9,8 @@ __pycache__/
 *.egg-info/
 build/
 dist/
+_wheel_test/
+*.whl
 .venv/
 venv/
 

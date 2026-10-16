@@ -100,7 +100,8 @@ def run_phase_3_human_audit(pseudo_gold_path: str, output_path: str, temp_edit_f
                     record_id=record_id,
                     original_text=original_text,
                     gold_json=validated_model, # 这里直接传 model，Pydantic 会自动序列化
-                    human_overrides=valid_overrides
+                    human_overrides=valid_overrides,
+                    review_status="modified" if valid_overrides else "confirmed"
                 ).model_dump(exclude_none=True)
 
                 true_record['gold_json'] = final_clean_dict # 替换为脱水后的极简版本

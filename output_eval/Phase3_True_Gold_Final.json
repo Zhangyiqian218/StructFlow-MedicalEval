@@ -177,7 +177,8 @@
       "补充metadata中主诉、现病史、科室、医师签名字段",
       "补充physical_examination中normal_signs字段",
       "新增术后用药：双联抗血小板、他汀强化、β受体阻滞剂、ACEI（原文依据：诊疗计划第3条）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-002",
@@ -337,7 +338,8 @@
       "补metadata中主诉、现病史、科室、医师签名字段",
       "在medication_orders中补充'ARNI/β受体阻滞剂/MRA/SGLT2i'用药记录，依据诊疗计划中的'病情稳定后优化GDMT药物'",
       "在non_pharm_interventions中补充'控制感染'干预措施，依据诊疗计划中的'控制感染'"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-003",
@@ -466,7 +468,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-004",
@@ -600,7 +603,8 @@
       "补充病情分析中的'常见病原体为肺炎链球菌、非典型病原体'到diagnoses.diagnostic_basis",
       "补充诊疗计划中的'退热、止咳化痰对症'到non_pharm_interventions",
       "补充诊疗计划中的'48-72小时评估疗效，根据痰培养及药敏调整'到medication_orders.other_notes"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-005",
@@ -740,7 +744,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-006",
@@ -872,7 +877,8 @@
       "补充了patient_profile中的past_medical_history字段",
       "补充了medication_orders中的布地奈德福莫特罗吸入剂和万托林两条记录",
       "简化了exam_management中的results结构"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-008",
@@ -1038,7 +1044,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-011",
@@ -1189,7 +1196,8 @@
       ]
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-010",
@@ -1334,7 +1342,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-007",
@@ -1546,7 +1555,8 @@
       "将体格检查结果'肝肋下未及'添加到physical_examination.normal_signs",
       "将体格检查结果'神志清楚'添加到physical_examination.normal_signs",
       "[phase3终检清洗] 删除空值字段 exam_management.results[7].unit=''"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-009",
@@ -1707,7 +1717,8 @@
       "在metadata中添加physician字段（原文依据：查房医师：吴丽 副主任医师）",
       "在metadata中添加chief_complaint字段（原文依据：主诉：反复腹泻伴黏液脓血便2年，加重2周）",
       "在metadata中添加history_of_present_illness字段（原文依据：现病史内容）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-012",
@@ -1820,7 +1831,8 @@
       "新增non_pharm_interventions中的纠正诱因和处理并发症",
       "简化exam_management结构为键值对",
       "修正patient_flow_plans结构，删除无依据的flow_type"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-014",
@@ -2018,7 +2030,8 @@
     "auto_changes": [
       "删除 medication_orders.drug_name.艾司洛尔.route 和 medication_orders.drug_name.艾司洛尔.infusion_method 中的 route 字段，原文未提及给药途径",
       "在 metadata 中添加 chief_complaint、history_of_present_illness、department、physician 字段，原文有明确依据"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-013",
@@ -2213,7 +2226,8 @@
       "在fluid_management中添加adjustment_basis字段",
       "在medication_orders的胰岛素条目中添加other_notes字段",
       "在exam_management.orders中添加frequency字段"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-015",
@@ -2384,7 +2398,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-019",
@@ -2528,7 +2543,8 @@
       "补metadata.department: 普通外科",
       "补metadata.physician: 谢军 主治医师",
       "补fluid_management: 静脉补液（原文明确提及）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-016",
@@ -2778,7 +2794,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-018",
@@ -2967,7 +2984,8 @@
       "新增patient_flow_plans：后备治疗方案（二线方案及CAR-T细胞治疗）",
       "新增physical_examination.normal_signs（原文有明确阴性体征描述）",
       "补全metadata字段：chief_complaint/history_of_present_illness/department/physician"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-022",
@@ -3128,7 +3146,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-020",
@@ -3262,7 +3281,8 @@
       "删除 medication_orders.route 中的 '静推'（原文未提及具体给药途径）",
       "合并 exam_management.results 为更简洁的对象结构",
       "简化 non_pharm_interventions 条目"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-021",
@@ -3454,7 +3474,8 @@
       ]
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-023",
@@ -3644,7 +3665,8 @@
       "在non_pharm_interventions中补充'立即建立静脉通路，快速补液，备血，必要时输血'相关内容",
       "在non_pharm_interventions中补充'预防感染'相关内容",
       "在non_pharm_interventions中补充'术后监测血β-HCG下降情况'相关内容"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-024",
@@ -3866,7 +3888,8 @@
       "删除exam_management.orders（原文无依据）",
       "添加metadata.chief_complaint和history_of_present_illness（原文依据）",
       "添加metadata.physician（原文依据）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-025",
@@ -4067,7 +4090,8 @@
       "在medication_orders中补充了头孢曲松的替代用药信息（原文依据：'头孢曲松100mg/kg/d静滴（或阿莫西林克拉维酸钾）'）",
       "在exam_management.orders中补充了复查胸片及炎症指标的具体目的（原文依据：'复查胸片及炎症指标评估疗效'）",
       "补充了metadata中的chief_complaint、history_of_present_illness、department和physician字段"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-028",
@@ -4285,7 +4309,8 @@
       "补入metadata中遗漏的chief_complaint、history_of_present_illness、department、physician字段",
       "在medication_orders中新增碳酸氢钠条目（原文：'用清水或2%碳酸氢钠溶液反复洗胃'）",
       "在甘露醇条目other_notes中注明替代方案（原文：'导泻：甘露醇或硫酸钠'）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-029",
@@ -4474,7 +4499,8 @@
       "在medication_orders中添加了尼卡地平和拉贝洛尔作为备选降压药物",
       "在medication_orders中添加了ACEI/ARB+CCB+利尿剂作为拟新增的联合用药方案",
       "intent非法值已移出: ['拟新增']"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-017",
@@ -4674,7 +4700,8 @@
       "删除所有条件操作(conditional_actions)字段（原文未明确说明）",
       "删除检查结果中的异常标记(abnormality_flag)字段（系统推断）",
       "删除检查申请中的紧急程度(urgency)字段（原文未明确说明）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-030",
@@ -4871,7 +4898,8 @@
       "补medication_orders.阿替普酶.conditional_actions.可考虑溶栓治疗（原文依据）",
       "补non_pharm_interventions.查找DVT原因，评估抗凝疗程（至少3个月，特发性需6-12个月）（原文依据）",
       "删exam_management.results各条目的abnormality_flag（原文无依据）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-032",
@@ -5088,7 +5116,8 @@
       "在physical_examination中添加了normal_signs字段，包含'肌张力正常'和'病理征阴性'，依据原文体格检查描述",
       "在non_pharm_interventions中添加了'预防感染'干预项，依据原文诊疗计划",
       "修改了硫唑嘌呤的medication_order，添加了other_notes字段说明'或他克莫司'，依据原文'长期免疫抑制治疗（硫唑嘌呤或他克莫司）'的描述"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-026",
@@ -5302,7 +5331,8 @@
     "auto_changes": [
       "补遗漏：在medication_orders中添加了氯化钾的补钾治疗具体浓度和速度限制（浓度不超过0.3%，速度不超过0.3mmol/kg/h）",
       "补遗漏：在metadata中添加了chief_complaint、history_of_present_illness、department和physician字段"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-033",
@@ -5488,7 +5518,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-035",
@@ -5691,7 +5722,8 @@
       "补体格检查阴性体征到physical_examination.normal_signs",
       "补血红蛋白检查结果解释到exam_management.results[1].interpretation",
       "补二线治疗计划到non_pharm_interventions"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-034",
@@ -5912,7 +5944,8 @@
       "[phase3终检清洗] 删除空值字段 exam_management.results[4].unit=''",
       "[phase3终检清洗] 删除空值字段 exam_management.results[5].unit=''",
       "[phase3终检清洗] 删除空值字段 exam_management.results[8].unit=''"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-036",
@@ -6071,7 +6104,8 @@
       "在medication_orders中为头孢类和甲硝唑补充了other_notes字段说明其适应症",
       "简化了exam_management中的results结构",
       "新增了patient_flow_plans模块用于记录观察和饮食调整计划"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-027",
@@ -6338,7 +6372,8 @@
       "在non_pharm_interventions中补入遗漏的'交叉配血'",
       "在non_pharm_interventions中补入遗漏的'监测生命体征、血红蛋白、凝血功能，纠正凝血障碍及低体温'",
       "在non_pharm_interventions中补入遗漏的'预防感染、应激性溃疡、深静脉血栓'"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-037",
@@ -6475,7 +6510,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-031",
@@ -6670,7 +6706,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-039",
@@ -6893,7 +6930,8 @@
       "在metadata中补充chief_complaint/history_of_present_illness/department/physician字段",
       "在physical_examination中补充normal_signs字段",
       "在non_pharm_interventions中补充物理降温、密切观察病情变化、警惕重症表现等遗漏信息"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-040",
@@ -7082,7 +7120,8 @@
       "在metadata中补充了chief_complaint、history_of_present_illness、department、physician字段，依据原文主诉、现病史、科室和医师签名",
       "在medication_orders中新增了他汀类药物、β受体阻滞剂、ACEI/ARB条目，依据原文诊疗计划第5条",
       "新增fluid_management模块记录补液治疗，依据原文诊疗计划第3条"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-041",
@@ -7325,7 +7364,8 @@
       "添加fluid_management限制液体入量",
       "在non_pharm_interventions中添加监测体温、血象、炎症指标、心脏彩超",
       "在non_pharm_interventions中添加警惕栓塞并发症"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-042",
@@ -7572,7 +7612,8 @@
       "将体格检查中的'气管居中'、'左上肺呼吸音清'、'心率90次/分，律齐'、'腹软，肝脾未触及'、'杵状指阴性'补充到physical_examination.normal_signs",
       "将辅助检查中的'胸水找抗酸杆菌：阴性'、'胸水找癌细胞：阴性'补充到exam_management.results",
       "将诊疗计划中的'营养支持'补充到non_pharm_interventions"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-043",
@@ -7777,7 +7818,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-045",
@@ -8003,7 +8045,8 @@
       "补充了patient_flow_plans中的随访和处理并发症",
       "intent非法值已移出: ['拟用']",
       "intent非法值已移出: ['拟用']"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-046",
@@ -8115,7 +8158,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-044",
@@ -8307,7 +8351,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-048",
@@ -8515,7 +8560,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-038",
@@ -8706,7 +8752,8 @@
     "human_overrides": [],
     "auto_changes": [
       "[phase3终检清洗] 删除空值字段 medication_orders[1].dosage=''"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-050",
@@ -8943,7 +8990,8 @@
       "在non_pharm_interventions中添加'更换输液器，保留静脉通路'（原文诊疗计划第1条）",
       "修正肾上腺素剂量单位从mg改为mL（0.3-0.5mL）（原文诊疗计划第2条）",
       "在甲泼尼龙的other_notes中注明'或地塞米松10-20mg静推（二选一）'体现互斥关系（原文诊疗计划第5条）"
-    ]
+    ],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-047",
@@ -9131,7 +9179,8 @@
       }
     },
     "human_overrides": [],
-    "auto_changes": []
+    "auto_changes": [],
+    "review_status": "confirmed"
   },
   {
     "record_id": "DICT-049",
@@ -9354,6 +9403,7 @@
       "[phase3终检清洗] 删除空值字段 exam_management.results[3].unit=''",
       "[phase3终检清洗] 删除空值字段 exam_management.results[9].unit=''",
       "[phase3终检清洗] 删除空值字段 exam_management.results[12].unit=''"
-    ]
+    ],
+    "review_status": "confirmed"
   }
 ]

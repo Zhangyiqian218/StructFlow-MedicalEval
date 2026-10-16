@@ -83,7 +83,7 @@
 | `disease_name` | str | 疾病名称 |
 | `diagnosis_type` | str | 枚举：`主要诊断`、`次要诊断`、`并发症`、`既往疾病`、`未指定` |
 | `grading` | str | 疾病分级、分期或危险度（如“3级很高危”、“T2N1M0”） |
-| `status` | str | 枚举：`确诊`、`疑似`、`排除` |
+| `status` | str | 枚举：`确诊`、`疑似`、`排除`、`待查` |
 | `diagnostic_basis`| list[str]| 支撑该诊断的核心临床依据（如“心电图ST段抬高”） |
 
 ### 2.6 `medication_orders` (用药医嘱)

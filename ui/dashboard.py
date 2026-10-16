@@ -219,7 +219,8 @@ with tab3:
                     record = {"record_id": picked, "original_text": original,
                               "gold_json": clean,
                               "human_overrides": human_ov,
-                              "auto_changes": auto_changes}
+                              "auto_changes": auto_changes,
+                              "review_status": "modified" if human_ov else "confirmed"}
                     gold_data = [x for x in gold_data if str(x["record_id"]) != picked]
                     gold_data.append(record)
                     save_gold(gold_data)

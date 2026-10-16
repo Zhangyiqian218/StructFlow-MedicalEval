@@ -78,3 +78,7 @@ class TrueGoldRecord(BaseModel):
     original_text: str
     gold_json: MedicalRecordSchema
     human_overrides: List[HumanOverride] = Field(default_factory=list)
+    auto_changes: List[str] = Field(default_factory=list)
+    review_status: Literal["confirmed", "modified"] = Field(
+        "confirmed",
+        description="人工复核结论：confirmed=人工确认自动版未改动；modified=人工做了实质修改")
